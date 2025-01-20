@@ -29,3 +29,25 @@ $('#model_file').change(function (event) {
     label.text(fileName);
 });
 
+
+$('#upload-form').submit(function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    console.log(formData)
+    $.ajax({
+        url: "/predictImage",  // Your server endpoint to handle the upload
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log(response.prediction);  
+            $('#predicted-img').html("");
+            $('#predicted-img').html(response.prediction);
+        },
+        error: function(error) {
+            console.error(error);  // Display any error messages
+        }
+    });
+
+});

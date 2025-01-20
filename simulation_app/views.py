@@ -35,7 +35,12 @@ def PredictImage(request):
                 os.unlink(temp_file_path)
                 if model:
                     predicted_image = scale_aware_cnn(model, uploaded_image)
-                    return render(request, 'prediction.html', {'prediction': predicted_image})
+                    response_data = {
+                    "message": "Model uploaded and processed successfully",
+                    "prediction": predicted_image
+                    }
+                    return JsonResponse(response_data)
+                    # return render(request, 'prediction.html', {'prediction': predicted_image})
                 else:
                     return JsonResponse({'message': 'No Model provided'}, status=400)
             else:
